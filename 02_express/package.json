@@ -1,0 +1,19 @@
+{
+  "name": "tea-manager",
+  "version": "1.0.0",
+  "description": "a simmple manager for different tea",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Anushree mehta",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}
