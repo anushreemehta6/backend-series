@@ -1,15 +1,33 @@
 import express from "express";
-
+import 'dotenv/config'
+import logger from "./logger.js";
+import morgan from "morgan";
 const app = express();
-const port = 3000;
+const port = process.env.PORT||  3000;
 app.use(express.json());
-
+const morganFormat = ":method :url :status :response-time ms";
+app.use(
+  morgan(morganFormat, {
+    stream: {
+      write: (message) => {
+        const logObject = {
+          method: message.split(" ")[0],
+          url: message.split(" ")[1],
+          status: message.split(" ")[2],
+          responseTime: message.split(" ")[3],
+        };
+        logger.info(JSON.stringify(logObject));
+      },
+    },
+  })
+);
 let teadata = [];
 let nextId = 1;
 // main landing
 app.get("/", (req, res) => {
   res.send("hello form anushree");
 });
+
 // add a new tea
 app.post("/teas", (req, res) => {
   const { name, price } = req.body;
@@ -34,8 +52,7 @@ app.get("/teas/:id", (req, res) => {
   }
 });
 
-// upadate a tea
-
+// update a tea
 app.put("/teas/:id", (req, res) => {
   const tea = teadata.find((t) => t.id === parseInt(req.params.id));
   const { name, price } = req.body;
